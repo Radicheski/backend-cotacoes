@@ -40,7 +40,7 @@ def read_stock_data(ticker, year):
         file_ticker = line[12:24].strip()  # 12 characters, strip any leading/trailing spaces
         
         # If the ticker matches, extract the price (assuming price is at a fixed position, e.g., 35-45)
-        price = line[34:44].strip()  # Assuming price starts at index 34 and ends at 44
+        price = line[56:69].strip()  # Assuming price starts at index 34 and ends at 44
         
         if file_ticker == ticker:
             data.append({'date': date_str, 'price': price})
@@ -73,7 +73,7 @@ def get_stock_price(ticker):
             year = date_obj.year
             data = read_stock_data(ticker, year)
             for entry in data:
-                if entry['date'] == date:
+                if entry['date'] == date.replace('-', ''):
                     return jsonify({'ticker': ticker, 'date': date, 'price': entry['price']})
             return jsonify({'error': 'Data not found for the given date'}), 404
         except ValueError:
