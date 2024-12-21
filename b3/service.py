@@ -1,5 +1,6 @@
 import datetime
 from b3.repository import get_file
+import re
 
 def read_stock_data(ticker, year):
     """Read stock price data for a given ticker from the year's consolidated file."""
@@ -39,3 +40,9 @@ def get_latest_price(ticker):
         latest_data = data[-1]
         return {'ticker': ticker, 'date': latest_data['date'], 'price': latest_data['price']}
     return None
+
+def get_valid_tickers(tickers):
+    tickers = tickers.split(',')
+    tickers = filter(lambda ticker: re.fullmatch('[A-Z]{4}[0-9]{1,2}', ticker), tickers)
+    tickers = set(tickers)
+    return list(tickers)
