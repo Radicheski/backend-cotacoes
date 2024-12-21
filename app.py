@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from b3.service import get_valid_tickers
+from b3.service import get_valid_tickers, get_stocks_prices
 from b3.repository import get_first_date, get_last_date
 import datetime
 app = Flask(__name__)
@@ -32,8 +32,11 @@ def get_stock_price(tickers):
 
     dates = sorted(dates)
 
-    if tickers:
-        return jsonify([tickers, dates]), 200
+    if tickers and dates:
+        data = []
+        for year in set([date.year for date in dates]):
+            data.append(get_stocks_prices(tickers, list(filter(lambda d: d.year == year, dates))))
+        return jsonify(data), 200
     else:
         return jsonify({'error': 'At least one valid ticker must be provided.'}), 400
 
