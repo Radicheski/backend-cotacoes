@@ -1,26 +1,10 @@
-import os
 import datetime
-
-DATA_DIR = os.environ.get('STOCK_DATA_DIR', '.')
-
-# Ensure the stock data directory exists
-if not os.path.exists(DATA_DIR):
-    os.makedirs(DATA_DIR)
+from b3.repository import get_file
 
 def read_stock_data(ticker, year):
     """Read stock price data for a given ticker from the year's consolidated file."""
-    # Build the file path based on the year
-    file_name = f"COTAHIST_A{year}.TXT"
-    file_path = os.path.join(DATA_DIR, file_name)
-
-    # If the file doesn't exist, return an empty list
-    if not os.path.exists(file_path):
-        return []
-
+    lines = get_file(year)
     data = []
-    # Open the file and read its contents
-    with open(file_path, 'r') as file:
-        lines = file.readlines()
 
     # Iterate over each line and filter data by ticker
     for line in lines:
