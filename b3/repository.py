@@ -1,7 +1,7 @@
 import os
 import datetime
 
-DATA_DIR = os.environ.get('STOCK_DATA_DIR', '.')
+DATA_DIR = os.environ.get('STOCK_DATA_DIR')
 
 # Ensure the stock data directory exists
 if not os.path.exists(DATA_DIR):

@@ -1,8 +1,5 @@
 #!/bin/bash
 
-STOCK_DATA_DIR=/data
-STOCK_TEMP_DIR=/temp
-
 download_data() {
     local YEAR=$1
     local FILE="COTAHIST_A$YEAR.ZIP"
