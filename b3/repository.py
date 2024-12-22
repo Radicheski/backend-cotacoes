@@ -14,7 +14,7 @@ def get_file(year):
     if not os.path.exists(file_path):
         return []
 
-    with open(file_path, 'r') as file:
+    with open(file_path, 'r', encoding='cp1252') as file:
         lines = file.readlines()
 
     return lines
