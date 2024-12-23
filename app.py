@@ -41,7 +41,7 @@ def get_stock_price(tickers):
         return jsonify({'error': 'At least one valid ticker must be provided.'}), 400
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
 
 def get_date_range(start=get_first_date(), end=get_last_date()):
     current = max(start, get_first_date()) if start else get_first_date()
