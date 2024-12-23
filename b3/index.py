@@ -1,16 +1,13 @@
 #!/usr/bin/python3
-import datetime
 import os
 import json
+import sys
 
-DATA_DIR = os.environ.get('STOCK_DATA_DIR', '.')
+DATA_DIR = os.environ.get('STOCK_DATA_DIR')
 
-startYear = 1986
-endYear = (datetime.datetime.now() + datetime.timedelta(days=-1)).year
+def process(year):
+    index = read_index()
 
-index = {}
-
-for year in range(startYear, endYear + 1):
     file = os.path.join(DATA_DIR, str(year))
     lines = []
     with open(file, 'r', encoding='cp1252') as f:
@@ -36,9 +33,19 @@ for year in range(startYear, endYear + 1):
             index[date]['endLine'] = i
 
         date = newDate
-        print(date)
 
         index[date] = { 'startLine': i }
 
-with open(os.path.join(DATA_DIR, 'index.json'), 'w') as f:
-    f.write(json.dumps(index, indent=2))
+    save_index(index)
+
+def read_index():
+    with open(os.path.join(DATA_DIR, 'index.json'), 'r') as file:
+        return json.load(file)
+
+def save_index(index):
+    with open(os.path.join(DATA_DIR, 'index.json'), 'w') as f:
+        f.write(json.dumps(index, indent=2))
+
+
+if __name__ == '__main__':
+    process(sys.argv[1])

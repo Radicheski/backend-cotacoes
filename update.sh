@@ -10,6 +10,8 @@ download_data() {
     unzip -d "$STOCK_TEMP_DIR" -o "$ZIP_PATH" | grep "inflating:" | awk '{print $2}' | while read -r file; do
         sort -k1.1,1.2 -k1.3,1.10 -k1.13,1.24 "$file" -o "$STOCK_DATA_DIR/$YEAR"
     done
+
+    python /app/b3/index.py "$YEAR"
 }
 
 update() {
