@@ -1,3 +1,4 @@
+import json
 import os
 import datetime
 
@@ -8,7 +9,7 @@ if not os.path.exists(DATA_DIR):
     os.makedirs(DATA_DIR)
 
 def get_file(year):
-    file_name = f"COTAHIST_A{year}.TXT"
+    file_name = f"{year}"
     file_path = os.path.join(DATA_DIR, file_name)
 
     if not os.path.exists(file_path):
@@ -20,7 +21,10 @@ def get_file(year):
     return lines
 
 def get_last_date():
-    return datetime.date.today() + datetime.timedelta(days=-1)
+    with open(os.path.join(DATA_DIR, 'index.json'), 'r') as file:
+        index = json.load(file)
+        last_date = max(index.keys())
+        return datetime.datetime.strptime(last_date, "%Y%m%d").date()
 
 def get_first_date():
     return datetime.date(1986, 1, 1)
