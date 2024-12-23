@@ -8,6 +8,10 @@ DATA_DIR = os.environ.get('STOCK_DATA_DIR')
 def process(year):
     index = read_index()
 
+    keys_to_remove = [key for key in index if key.startswith(str(year))]
+    for key in keys_to_remove:
+        del index[key]
+
     file = os.path.join(DATA_DIR, str(year))
     lines = []
     with open(file, 'r', encoding='cp1252') as f:
