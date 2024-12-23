@@ -8,13 +8,13 @@ app = Flask(__name__)
 def get_stock_price(tickers):
     tickers = get_valid_tickers(tickers)
 
-    startDate = request.args.get('startDate')
-    endDate = request.args.get('endDate')
+    start_date = request.args.get('startDate')
+    end_date = request.args.get('endDate')
     date = request.args.get('date')
 
     try:
-        startDate = parse_date(startDate)
-        endDate = parse_date(endDate)
+        start_date = parse_date(start_date)
+        end_date = parse_date(end_date)
         date = parse_date(date)
     except:
         return jsonify({'error': 'Invalid date'}), 400
@@ -24,8 +24,8 @@ def get_stock_price(tickers):
     if date and get_first_date() <= date <= get_last_date():
         dates.add(date)
 
-    if startDate or endDate:
-        dates = dates.union(get_date_range(startDate, endDate))
+    if start_date or end_date:
+        dates = dates.union(get_date_range(start_date, end_date))
 
     if not dates:
         dates.add(get_last_date())
