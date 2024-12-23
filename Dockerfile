@@ -34,4 +34,9 @@ EXPOSE 5000
 ENV STOCK_DATA_DIR=/data
 ENV STOCK_TEMP_DIR=/temp
 
+RUN groupadd -r app \
+    && useradd -r -g app app
+
+USER app
+
 ENTRYPOINT ["flask", "--app", "app", "run", "--host=0.0.0.0"]
